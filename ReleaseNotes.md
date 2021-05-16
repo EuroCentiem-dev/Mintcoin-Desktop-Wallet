@@ -1,4 +1,11 @@
-# 2.1.3
+# 2.1.3 - alpha
+
+* Updated splash screen & and about logo
+* Added additional messages towards splash screen while loading blocks so that it doesn't looklike the screen is freezing
+* added checkpoint 7000001
+
+
+# 2.1.2
 
 :information_source: | This is a source-only release, to allow building on the aarch64 CPU architecture. Unless you are planning on compiling for this 64-bit ARM CPU, please consider using a binary from the [2.1.1 release](https://github.com/MintcoinCommunity/Mintcoin-Desktop-Wallet/releases/tag/v2.1.1). 
 :---: | :--- 

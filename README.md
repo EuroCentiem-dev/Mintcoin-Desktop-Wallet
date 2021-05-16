@@ -64,7 +64,7 @@ A: 5% annually (that is, 5% per year).
 Q: My wallet is taking really long to synchronize. How can I speed this up?  
 A: For now, you can either be patient or download a snapshot (sorry).  
    You can find a snapshot here:  
-     https://mega.nz/#F!uKIQhYRY!CzW5ZhvHHEQ9hmX8-Wpoqw
+     https://www.mintcoin-green/magnet.html
    Stop your wallet, extract that into your MintCoin directory, and
    then restart your wallet. It will then start synchronizing from the
    time the last snapshot was taken.
