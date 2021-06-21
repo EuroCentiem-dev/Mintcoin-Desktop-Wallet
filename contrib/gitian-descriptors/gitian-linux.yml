@@ -1,15 +1,12 @@
 ---
 name: "MintCoin-Desktop-Wallet-2.1.3"
 enable_cache: true
+distro: "ubuntu"
 suites:
 - "trusty"
 architectures:
 - "amd64"
 packages:
-- "libdb5.3-dev"
-- "libdb5.3++-dev"
-- "libboost-all-dev"
-- "libqrencode-dev"
 - "curl"
 - "g++-multilib"
 - "git-core"
@@ -29,7 +26,7 @@ remotes:
 files: []
 script: |
   WRAP_DIR=$HOME/wrapped
-  HOSTS="i686-pc-linux-gnu x86_64-unknown-linux-gnu"
+  HOSTS="x86_64-unknown-linux-gnu"
   CONFIGFLAGS="--enable-glibc-back-compat --enable-reduce-exports --disable-bench --disable-gui-tests LDFLAGS=-static-libstdc++"
   FAKETIME_HOST_PROGS=""
   FAKETIME_PROGS="date ar ranlib nm strip objcopy"
@@ -72,7 +69,7 @@ script: |
   done
   export PATH=${WRAP_DIR}:${PATH}
 
-  cd gobyte
+  cd Mintcoin-Desktop-Wallet
   BASEPREFIX=`pwd`/depends
   # Build dependencies for each host
   for i in $HOSTS; do
@@ -83,13 +80,13 @@ script: |
   ./autogen.sh
   CONFIG_SITE=${BASEPREFIX}/`echo "${HOSTS}" | awk '{print $1;}'`/share/config.site ./configure --prefix=/
   make dist
-  SOURCEDIST=`echo gobytecore-*.tar.gz`
+  SOURCEDIST=`echo Mintcoin-Desktop-Wallet-*.tar.gz`
   DISTNAME=`echo ${SOURCEDIST} | sed 's/.tar.*//'`
   # Correct tar file order
   mkdir -p temp
   pushd temp
   tar xf ../$SOURCEDIST
-  find gobytecore-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
+  find Mintcoin-Desktop-Wallet-* | sort | tar --no-recursion --mode='u+rw,go+r-w,a+X' --owner=0 --group=0 -c -T - | gzip -9n > ../$SOURCEDIST
   popd
 
   ORIGPATH="$PATH"
