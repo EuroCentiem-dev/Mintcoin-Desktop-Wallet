@@ -287,6 +287,7 @@ echo 'export LXC_GUEST_IP=10.0.3.5' >> /home/debian/.profile
 reboot
 ```
 
+
 At the end the VM is rebooted to make sure that the changes take effect. The steps in this
 section only need to be performed once.
 
