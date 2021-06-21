@@ -217,7 +217,6 @@ endef
 # happened to be computed already.
 
 #set the type for host/build packages.
-
 $(foreach native_package,$(native_packages),$(eval $(native_package)_type=build))
 $(foreach package,$(packages),$(eval $(package)_type=$(host_arch)_$(host_os)))
 
