@@ -16,6 +16,9 @@ HASH_LENGTH:=11
 DOWNLOAD_CONNECT_TIMEOUT:=10
 DOWNLOAD_RETRIES:=3
 
+$(info BUILD $(BUILD))
+$(info BUILD $(HOST))
+
 host:=$(BUILD)
 ifneq ($(HOST),)
 host:=$(HOST)
@@ -38,7 +41,7 @@ build_arch =$(firstword $(subst -, ,$(build)))
 build_vendor=$(word 2,$(subst -, ,$(build)))
 full_build_os:=$(subst $(build_arch)-$(build_vendor)-,,$(build))
 build_os:=$(findstring linux,$(full_build_os))
-build_os+=$(findstring darwin,$(full_build_os))
+#build_os+=$(findstring darwin,$(full_build_os))
 build_os:=$(strip $(build_os))
 ifeq ($(build_os),)
 build_os=$(full_build_os)
@@ -48,7 +51,7 @@ host_arch=$(firstword $(subst -, ,$(canonical_host)))
 host_vendor=$(word 2,$(subst -, ,$(canonical_host)))
 full_host_os:=$(subst $(host_arch)-$(host_vendor)-,,$(canonical_host))
 host_os:=$(findstring linux,$(full_host_os))
-host_os+=$(findstring darwin,$(full_host_os))
+#host_os+=$(findstring darwin,$(full_host_os))
 host_os+=$(findstring mingw32,$(full_host_os))
 host_os:=$(strip $(host_os))
 ifeq ($(host_os),)
@@ -67,6 +70,7 @@ AT:=$(AT_$(V))
 
 all: install
 
+$(info build_os $(build_os))
 include hosts/$(host_os).mk
 include hosts/default.mk
 include builders/$(build_os).mk
@@ -87,6 +91,10 @@ meta_depends = Makefile funcs.mk builders/default.mk hosts/default.mk hosts/$(ho
 $(host_arch)_$(host_os)_native_toolchain?=$($(host_os)_native_toolchain)
 
 include funcs.mk
+
+$(info qt_packages_ $(qt_packages_))
+$(info wallet_packages_ $(wallet_packages_))
+
 
 toolchain_path=$($($(host_arch)_$(host_os)_native_toolchain)_prefixbin)
 final_build_id_long+=$(shell $(build_SHA256SUM) config.site.in)
@@ -151,7 +159,7 @@ install: check-packages $(host_prefix)/share/config.site
 download-one: check-sources $(all_sources)
 
 download-osx:
-	@$(MAKE) -s HOST=x86_64-apple-darwin11 download-one
+ #	@$(MAKE) -s HOST=x86_64-apple-darwin11 download-one
 download-linux:
 	@$(MAKE) -s HOST=x86_64-unknown-linux-gnu download-one
 download-win:

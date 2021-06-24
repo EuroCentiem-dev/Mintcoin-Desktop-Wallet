@@ -1,6 +1,13 @@
 2.1.3-gitian Release notes
 ====================
 
+Versions used in this release:
+ GCC           4.3.3
+ OpenSSL       1.0.1f
+ Berkeley DB   5.3.21.NC
+ Boost         1.58
+ miniupnpc     1.9
+
 
 MintCoin version 2.1.3 is now available from:
 
@@ -74,16 +81,26 @@ mv build/out/dogecoin-*.zip build/out/dogecoin-*.exe ../builds/v${VERSION}/
 ./bin/gsign --signer $SIGNER --release ${VERSION}-osx --destination ../gitian.sigs ../dogecoin/contrib/gitian-descriptors/gitian-osx.yml
 mv build/out/dogecoin-*.tar.gz build/out/dogecoin-*.dmg ../builds/v${VERSION}/
 
+setup gitian with docker
+
+./gitian-build-Mintcoin-Desktop-Wallet-2.1.3-gitian.py --setup -n -d $SIGNER $VERSION
 
 export USE_DOCKER=1
 export MEM_TO_USE=64000
 export PROC_TO_USE=3
-export VERSION=2.1.3
--gitian
+export VERSION=2.1.3-gitian
 export SIGNER=eurocentiem
 export COIN=Mintcoin-Desktop-Wallet
+
+export BTCPATH=/home/debian/$COIN
+export SIGPATH=/home/debian/mintcoin-detached-sigs
+
 export URL=https://github.com/EuroCentiem-dev/Mintcoin-Desktop-Wallet.git
-./bin/gbuild -m ${MEM_TO_USE} -j ${PROC_TO_USE} --commit $COIN=$VERSION ../$COIN/contrib/gitian-descriptors/gitian-linux.yml
+
+
+./bin/gbuild  --url $COIN=$BTCPATH --skip-fetch --skip-cleanup $BTCPATH/$COIN/contrib/gitian-descriptors/gitian-linux.yml
+
+./bin/gbuild $(pwd)/inputs/$COIN/contrib/gitian-descriptors/gitian-linux.yml --commit $COIN=$VERSION $URL=$(pwd)inputs/$COIN/ --skip-fetch --skip-cleanup
 
 BTCPATH=/some/root/path/bitcoin
 SIGPATH=/some/root/path/bitcoin-detached-sigs
@@ -91,7 +108,14 @@ SIGPATH=/some/root/path/bitcoin-detached-sigs
 ./bin/gbuild --url bitcoin=${BTCPATH},signature=${SIGPATH} ../bitcoin/contrib/gitian-descriptors/gitian-win-signer.yml
 
 
-./bin/gbuild -m ${MEM_TO_USE} -j ${PROC_TO_USE} --url --commit $COIN=$URL ../$COIN/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild -m ${MEM_TO_USE} -j ${PROC_TO_USE} --commit $COIN=$URL  --url $COIN=~/$COIN ~/$COIN/contrib/gitian-descriptors/gitian-linux.yml
+
+URL=https://github.com/laanwj/bitcoin.git
+COMMIT=2014_03_windows_unicode_path
+./bin/gbuild --commit bitcoin=${COMMIT} --url bitcoin=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-linux.yml
+./bin/gbuild --commit bitcoin=${COMMIT} --url bitcoin=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-win.yml
+./bin/gbuild --commit bitcoin=${COMMIT} --url bitcoin=${URL} ../bitcoin/contrib/gitian-descriptors/gitian-osx.yml
+
 
 Offline building
 
@@ -110,3 +134,5 @@ LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root \
   $( sed -ne '/^packages:/,/[^-] .*/ {/^- .*/{s/"//g;s/- //;p}}' ../bitcoin/contrib/gitian-descriptors/*|sort|uniq )
 LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root apt-get -q -y purge grub
 LXC_ARCH=amd64 LXC_SUITE=trusty on-target -u root -e DEBIAN_FRONTEND=noninteractive apt-get -y dist-upgrade
+
+subprocess.CalledProcessError: Command '['bin/gbuild', '-j', '2', '-m', '2000', '--commit', 'Mintcoin-Desktop-Wallet=2.1.3-gitian', '--url', 'Mintcoin-Desktop-Wallet=https://github.com/EuroCentiem-dev/Mintcoin-Desktop-Wallet', '../Mintcoin-Desktop-Wallet/contrib/gitian-de
