@@ -94,8 +94,16 @@ export COIN=Mintcoin-Desktop-Wallet
 
 export BTCPATH=/home/debian/$COIN
 export SIGPATH=/home/debian/mintcoin-detached-sigs
+cd gitian-builder
+
+local building remove so gitian does not expect a commit
+remotes:
+- "url": "https://github.com/EuroCentiem-dev/Mintcoin-Desktop-Wallet.git"
+  "dir": "Mintcoin-Desktop-Wallet"
 
 export URL=https://github.com/EuroCentiem-dev/Mintcoin-Desktop-Wallet.git
+
+./bin/gbuild -m ${MEM_TO_USE} -j ${PROC_TO_USE} --url $COIN=${BTCPATH} --commit $COIN=$VERSION ../$COIN/contrib/gitian-descriptors/gitian-linux.yml
 
 
 ./bin/gbuild  --url $COIN=$BTCPATH --skip-fetch --skip-cleanup $BTCPATH/$COIN/contrib/gitian-descriptors/gitian-linux.yml
