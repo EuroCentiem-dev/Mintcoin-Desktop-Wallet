@@ -12,7 +12,7 @@ AC_CONFIG_HEADERS([src/config/mintcoin-config.h])
 AC_CONFIG_AUX_DIR([build-aux])
 AC_CONFIG_MACRO_DIR([build-aux/m4])
 
-BITCOIN_DAEMON_NAME=deviantd
+BITCOIN_DAEMON_NAME=mintcoind
 BITCOIN_GUI_NAME=mintcoin-qt
 BITCOIN_CLI_NAME=mintcoin-cli
 BITCOIN_TX_NAME=mintcoin-tx
