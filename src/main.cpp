@@ -2729,8 +2729,6 @@ void PrintBlockTree()
 bool LoadExternalBlockFile(FILE* fileIn)
 {
     int64 nStart = GetTimeMillis();
-    string sCountMessage;
-    char buffer[100];
 
     int nLoaded = 0;
     {
@@ -2777,12 +2775,12 @@ bool LoadExternalBlockFile(FILE* fileIn)
                         nPos += 4 + nSize;
                     }
                 }
-                if (nLoaded%10000 == 0)
-                {
-                    sprintf(buffer, "Importing bootstrap blockchain file. @record: %i" , nLoaded);
+                if (nPos%50000 == 0) {
+                    sprintf(buffer, "Importing bootstrap blockchain file. @record: %" PRI64d, nPos);
                     sCountMessage = buffer;
                     uiInterface.InitMessage(sCountMessage);
-                    printf("Importing bootstrap blockchain file. @record: %i" , nLoaded);
+                    printf("Importing bootstrap blockchain file. @record: " PRI64d, nPos);
+                    
                 }
             }
             
