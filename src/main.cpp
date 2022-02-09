@@ -2775,7 +2775,15 @@ bool LoadExternalBlockFile(FILE* fileIn)
                         nPos += 4 + nSize;
                     }
                 }
+                if (nPos%50000 == 0) {
+                    sprintf(buffer, "Importing bootstrap blockchain file. @record: %" PRI64d, nPos);
+                    sCountMessage = buffer;
+                    uiInterface.InitMessage(sCountMessage);
+                    printf("Importing bootstrap blockchain file. @record: " PRI64d, nPos);
+                    
+                }
             }
+            
         }
         catch (std::exception &e) {
             printf("%s() : Deserialize or I/O error caught during load\n",
