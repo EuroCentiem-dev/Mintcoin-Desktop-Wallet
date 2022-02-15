@@ -2794,6 +2794,8 @@ bool LoadExternalBlockFile(FILE* fileIn)
 extern map<uint256, CAlert> mapAlerts;
 extern CCriticalSection cs_mapAlerts;
 
+static string strMintWarning;
+
 string GetWarnings(string strFor)
 {
     int nPriority = 0;
@@ -2806,6 +2808,12 @@ string GetWarnings(string strFor)
     if (!CLIENT_VERSION_IS_RELEASE)
         strStatusBar = _("This is a pre-release test build - use at your own risk - do not use for mining or merchant applications");
 
+    // ppcoin: wallet lock warning for minting
+    if (strMintWarning != "")
+    {
+        nPriority = 0;
+        strStatusBar = strMintWarning;
+    }
     // Misc warnings like out of disk space and clock is wrong
     if (strMiscWarning != "")
     {
@@ -4318,22 +4326,56 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
     CReserveKey reservekey(pwallet);
     unsigned int nExtraNonce = 0;
 
-    while (fGenerateBitcoins || fProofOfStake)
-    {
+    string strMintMessage = _("Info: Minting suspended due to locked wallet.");
+    string strMintSyncMessage = _("Info: Minting suspended while synchronizing wallet.");
+    string strMintDisabledMessage = _("Info: Minting disabled by 'nominting' option.");
+    string strMintBlockMessage = _("Info: Minting suspended due to block creation failure.");
+    try{ ploop {
         if (fShutdown)
             return;
 
-        while (vNodes.empty() || IsInitialBlockDownload() || pwallet->IsLocked())
+        if (GetBoolArg("-nominting"))
+        {
+            strMintWarning = strMintDisabledMessage;
+            nLastCoinStakeSearchInterval = 0;
+            return;
+        }
+
+        while (vNodes.empty())
         {
             nLastCoinStakeSearchInterval = 0;
             MilliSleep(1000);
-            if (fShutdown)
-                return;
-            if (!fGenerateBitcoins && !fProofOfStake)
-                return;
         }
 
-        //
+        
+        while (fGenerateBitcoins && !IsInitialBlockDownload())
+        {
+            printf("Minter thread sleeps during initial block download\n");
+            strMintWarning = strMintSyncMessage;
+            nLastCoinStakeSearchInterval = 0;
+            MilliSleep(10000);
+        }
+        
+        
+        while (fProofOfStake && IsInitialBlockDownload())
+        {
+            printf("Minter thread sleeps during initial block download\n");
+            strMintWarning = strMintSyncMessage;
+            nLastCoinStakeSearchInterval = 0;
+            MilliSleep(10000);
+        }
+
+        while (pwallet->IsLocked())
+        {
+            strMintWarning = strMintMessage;
+            nLastCoinStakeSearchInterval = 0;
+            MilliSleep(1000);
+        }
+        strMintWarning = "";
+   
+
+
+          //
         // Create new block
         //
         unsigned int nTransactionsUpdatedLast = nTransactionsUpdated;
@@ -4345,7 +4387,11 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
         unique_ptr<CBlock> pblock(CreateNewBlock(pwallet, fProofOfStake));
 #endif
         if (!pblock.get())
+        {
+            strMintWarning = strMintBlockMessage;
             return;
+        }
+            
         IncrementExtraNonce(pblock.get(), pindexPrev, nExtraNonce);
 
         if (fProofOfStake)
@@ -4353,10 +4399,12 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
             // ppcoin: if proof-of-stake block found then process block
             if (pblock->IsProofOfStake())
             {
-                if (!pblock->SignBlock(*pwalletMain)) {
-                    printf("XXX could not sign block XXX\n");
+                if (!pblock->SignBlock(*pwalletMain)) 
+                {
+                    strMintWarning = strMintMessage;
                     continue;
                 }
+                strMintWarning = "";
                 printf("CPUMiner : proof-of-stake block found %s\n", pblock->GetHash().ToString().c_str()); 
                 SetThreadPriority(THREAD_PRIORITY_NORMAL);
                 CheckWork(pblock.get(), *pwalletMain, reservekey);
@@ -4366,7 +4414,7 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
             continue;
         }
 
-        printf("Running BitcoinMiner with %" PRIszu " transactions in block (%u bytes)\n", pblock->vtx.size(),
+        printf("Running MintCoinMiner with %" PRIszu " transactions in block (%u bytes)\n", pblock->vtx.size(),
                ::GetSerializeSize(*pblock, SER_NETWORK, PROTOCOL_VERSION));
 
         //
@@ -4415,8 +4463,11 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
                     pblock->nNonce = nNonceFound;
                     assert(result == pblock->GetHash());
                     if (!pblock->SignBlock(*pwalletMain))
+                    {
+                        strMintWarning = strMintMessage;
                         break;
-
+                    }
+                    strMintWarning="";
                     SetThreadPriority(THREAD_PRIORITY_NORMAL);
                     CheckWork(pblock.get(), *pwalletMain, reservekey);
                     SetThreadPriority(THREAD_PRIORITY_LOWEST);
@@ -4478,8 +4529,13 @@ void BitcoinMiner(CWallet *pwallet, bool fProofOfStake)
             if (pblock->GetBlockTime() >= (int64)pblock->vtx[0].nTime + GetClockDrift(GetAdjustedTime()))
                 break;  // need to update coinbase timestamp
         }
+    } }
+    catch (boost::thread_interrupted)
+    {
+        if(!fProofOfStake) printf("MintCoinMiner terminated\n");
+        throw;
     }
-
+ 
     scrypt_buffer_free(scratchbuf);
 }
 
