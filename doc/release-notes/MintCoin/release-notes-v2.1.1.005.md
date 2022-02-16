@@ -1,17 +1,22 @@
 2.1.1.005 Release Notes
 ===================
 
-Versions used in this release (to be confirmed):
- GCC           4.3.3
- OpenSSL       1.0.1f
- Berkeley DB   5.3.21.NC
- Boost         1.58
- miniupnpc     1.9
+Versions used in this linux release:
+ GCC           4.8.5
+ OpenSSL       1.1.1f
+ Berkeley DB   5.3.28
+ Boost         1.71.0
+ miniupnpc     2.1.20190824
 
+Versions used in this windows release:
+ GCC           4.8.5          (to be confirmed)
+ OpenSSL       1.0.2k         (this is the old version, new version to be confirmed)
+ Berkeley DB   6.1.26         (this is the old version, new version to be confirmed)
+ Boost         1.71.0         (to be confirmed)
+ miniupnpc     2.1.20190824   (to be confirmed)
 
 Purpose of the release:
 =========================
-
 
 MintCoin version 2.1.1.005 is now available from:
 
@@ -41,4 +46,12 @@ changelog:
 * Added -Wno-deprecated-copy to makefile.unix to allow the build with newer gcc version
 * Added cli argument -nominting to completly disable minting features from the command line
 * Added "no minting" behaviour when initial block download is in progress
+
+Todo: (before) version bump
+===========================
+* add boost version to QT wallet
+* Update graphics of Qt wallet
+* Determine versions windows build with backwards compatibility to v2.1.1 ()
+* Assemble Mac build
+* Assemble aarch64 build
 
