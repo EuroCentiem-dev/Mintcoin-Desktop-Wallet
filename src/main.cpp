@@ -2729,6 +2729,8 @@ void PrintBlockTree()
 bool LoadExternalBlockFile(FILE* fileIn)
 {
     int64 nStart = GetTimeMillis();
+    string sCountMessage;
+    char buffer[100];
 
     int nLoaded = 0;
     {
