@@ -16,6 +16,7 @@
 #include <QScrollBar>
 
 #include <openssl/crypto.h>
+#include <boost/version.hpp>
 #include <pthread.h>
 #include <db_cxx.h>
 
@@ -208,6 +209,7 @@ RPCConsole::RPCConsole(QWidget *parent) :
 
     // set OpenSSL version label
     ui->openSSLVersion->setText(SSLeay_version(SSLEAY_VERSION));
+    ui->BoostVersion->setText(BOOST_LIB_VERSION);
     ui->berkeleyDBVersion->setText(DbEnv::version(0, 0, 0));
 
     startExecutor();

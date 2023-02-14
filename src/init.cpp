@@ -11,6 +11,7 @@
 #include "ui_interface.h"
 #include "checkpoints.h"
 #include <boost/filesystem.hpp>
+#include <boost/version.hpp>
 #include <boost/filesystem/fstream.hpp>
 #include <boost/filesystem/convenience.hpp>
 #include <boost/interprocess/sync/file_lock.hpp>
@@ -463,6 +464,7 @@ bool AppInit2()
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
     printf("MintCoin version %s (%s)\n", FormatFullVersion().c_str(), CLIENT_DATE.c_str());
     printf("Using OpenSSL version %s\n", SSLeay_version(SSLEAY_VERSION));
+    printf("Using Boost version %s\n", BOOST_LIB_VERSION );
     printf("Using BerkeleyDB version %s\n", DbEnv::version(0, 0, 0));
     if (!fLogTimestamps)
         printf("Startup time: %s\n", DateTimeStrFormat(GetTime()).c_str());
