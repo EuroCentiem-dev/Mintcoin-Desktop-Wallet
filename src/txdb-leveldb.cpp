@@ -395,7 +395,6 @@ bool CTxDB::LoadBlockIndex()
     }
 
     uiInterface.InitMessage("Reorganizing completed");
-    sleep(2);
     // Load hashBestChain pointer to end of best chain
     if (!ReadHashBestChain(hashBestChain))
     {
@@ -421,7 +420,6 @@ bool CTxDB::LoadBlockIndex()
     printf("LoadBlockIndex(): synchronized checkpoint %s\n", Checkpoints::hashSyncCheckpoint.ToString().c_str());
     sprintf(buffer, "Checkpoint: %s" , Checkpoints::hashSyncCheckpoint.ToString().c_str());
     uiInterface.InitMessage(buffer);
-    sleep(2);
 
     // Load bnBestInvalidTrust, OK if it doesn't exist
     CBigNum bnBestInvalidTrust;
