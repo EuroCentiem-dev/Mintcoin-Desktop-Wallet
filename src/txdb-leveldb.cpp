@@ -395,6 +395,7 @@ bool CTxDB::LoadBlockIndex()
     }
 
     uiInterface.InitMessage("Reorganizing completed");
+    sleep(2);
     // Load hashBestChain pointer to end of best chain
     if (!ReadHashBestChain(hashBestChain))
     {
