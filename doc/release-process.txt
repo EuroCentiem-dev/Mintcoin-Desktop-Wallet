@@ -1,8 +1,11 @@
 The following are useful for the MintCoin release:
+* doc/release-notes/mintcoin
+  copy and rename latest release notes to current version
 
 * update (commit) version in sources
-  bitcoin-qt.pro
+  mintcoin-qt.pro
   src/clientversion.h
+  set CLIENT_VERSION_IS_RELEASE in src/clientversion.h to false during development
   share/setup.nsi
   doc/README*
   DESC in share/genbuild.sh (the most important)

@@ -5,10 +5,10 @@ SetCompressor /SOLID lzma
 
 # General Symbol Definitions
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION 2.1.1.000
-VIProductVersion "2.1.1.000"
+!define VERSION 2.1.1.000-boost-millisleep-depends
+VIProductVersion "2.1.1.000-boost-millisleep-depends"
 !define COMPANY "MintCoin Community"
-!define URL http://www.mintcoinofficial.com
+!define URL https://www.mintcoinofficial.eu
 
 # MUI Symbol Definitions
 !define MUI_ICON "../share/pixmaps/bitcoin.ico"

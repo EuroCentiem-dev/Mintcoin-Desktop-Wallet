@@ -9,13 +9,13 @@
 #define CLIENT_VERSION_MAJOR       2
 #define CLIENT_VERSION_MINOR       1
 #define CLIENT_VERSION_REVISION    1
-#define CLIENT_VERSION_BUILD       000
+#define CLIENT_VERSION_BUILD       000-boost-millisleep-depends
 
 // Client version number
 #define CLIENT_VERSION_SUFFIX ""
 
 // Set to true for release, false for prerelease or test build
-#define CLIENT_VERSION_IS_RELEASE  true
+#define CLIENT_VERSION_IS_RELEASE  false
 
 // Converts the parameter X to a string after macro replacement on X has been performed.
 // Don't merge these into one macro!
