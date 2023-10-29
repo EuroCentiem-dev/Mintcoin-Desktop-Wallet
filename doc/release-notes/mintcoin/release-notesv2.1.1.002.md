@@ -37,7 +37,7 @@ Following commits have been cherry picked from the master branch
 |6cc7fb0aa362b8b5631c080359c58a602e6c39f1    |Remove Qt support for macOS 10.11|
 |c8bf8db2f7c9ab0dad29f93062199723009dc2ce    |Update Qt text for number of minting confirmations|
 |skipped                                     |Windows build fixes (#108)|
-|skipped                                     |Fixes to build with Boost 1.71 (#113)|
+|7e64b371c896811748524c3e18aff7ba58f4477b    |Fixes to build with Boost 1.71 (#113)|
 |skipped                                     |aarch64 support (#112)|
 |f150f1186b6e8f60a7748a2bfbab75c46db2cd80    |Updated checkpoints on 2021 05 13 to 7 000 000 1|
 |05d5425d7feb8b0b4c7c099634f378e8f47e33dc    |Removed duplicate time which is an issue for blockexplorers|

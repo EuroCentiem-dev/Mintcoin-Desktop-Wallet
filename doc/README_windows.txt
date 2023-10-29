@@ -1,7 +1,7 @@
 Copyright (c) 2013-2018 MintCoin Developers
 
 
-MintCoin 2.1.1
+MintCoin 2.1.1.002
 
 Copyright (c) 2013-2018 MintCoin Developers
 Copyright (c) 2013 NovaCoin Developers
