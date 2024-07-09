@@ -1246,7 +1246,8 @@ void MapPort()
 
 // DNS seeds
 static const char *strDNSSeed[] = {
-    "mintseed.mintcoin-dns.ga",
+    "mintseed.eurocentiem.eu",
+    "mintseed.crypto-fan-store.eu",
     NULL,
 };
 
