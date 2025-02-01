@@ -23,8 +23,8 @@ packages:
 - "python"
 - "rename"
 remotes:
-- "url": "https://github.com/dogecoin/dogecoin.git"
-  "dir": "dogecoin"
+- "url": "https://github.com/EuroCentiem-dev/Mintcoin-Desktop-Wallet.git"
+  "dir": "Mintcoin-Desktop-Wallet"
 files: []
 script: |
   WRAP_DIR=$HOME/wrapped
