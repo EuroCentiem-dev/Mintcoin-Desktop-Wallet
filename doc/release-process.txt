@@ -1,7 +1,7 @@
 The following are useful for the MintCoin release:
 
 * update (commit) version in sources
-  bitcoin-qt.pro
+  mintcoin-qt.pro
   src/clientversion.h
   share/setup.nsi
   doc/README*

@@ -16,8 +16,7 @@ USE_UPNP:=0
 # :=1 --> Enable IPv6 support
 # :=0 --> Disable IPv6 support
 USE_IPV6:=1
-
-DEPSDIR=/home/debian/build64/EuroCentiem-dev/mintcoin/2.1.1.000-boost-millisleep-depends/depends/x86_64-pc-linux-gnu
+# DEPSDIR=/home/debian/build64/EuroCentiem-dev/mintcoin/2.1.1.000-boost-millisleep-depends/depends/x86_64-pc-linux-gnu
 
 # make -f makefile.unix-docker -j5 DEPSDIR=/home/debian/build64/eurocentiem-mintcoin/v2.1.1.001-boost-millisleep/depends/x86_64-pc-linux-gnu TARGET_PLATFORM=x86_64 USE_UPNP=1 DEBUGFLAGS=-frandom-seed=mintcoin 
 
