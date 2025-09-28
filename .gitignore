@@ -13,7 +13,6 @@ src/test_mintcoin
 
 # Compilation and Qt preprocessor part
 *.qm
-Makefile
 MintCoin-Qt
 Mintcoin-Qt.app
 
